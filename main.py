@@ -3,6 +3,7 @@ from modules.empresa import empresa
 from modules.local import local
 from modules.emisiones import emisiones
 from modules.validacion import validacion
+from modules.reporte import reporte
 
 
 def main():
@@ -13,7 +14,8 @@ def main():
         print("2. MÓDULO DE REGISTRO DE LOCAL")
         print("3. MÓDULO DE REGISTRO DE EMISIONES")
         print("4. MÓDULO DE VALIDACIÓN DE CALCULOS")
-        print("5. SALIR DEL PROGRAMA")
+        print("5. MÓDULO DE VALIDACIÓN DE REPORTES")
+        print("6. SALIR DEL PROGRAMA")
         print("************************************************************************")
         numero_modulo = input("Ingrese el número del módulo a visualizar: ")
         
@@ -27,6 +29,8 @@ def main():
             case "4":
                 validacion()
             case "5":
+                reporte()
+            case "6":
                 print("Saliendo del programa")
                 break
             case _:
