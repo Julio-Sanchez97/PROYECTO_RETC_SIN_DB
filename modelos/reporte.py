@@ -20,7 +20,7 @@ class Reporte:
         self.nombre_empresa = nombre_empresa
         self.codigo_local = codigo_local
         self.nombre_local = nombre_local
-        self.codigo_ciiu = codigo_ciiu,
+        self.codigo_ciiu = codigo_ciiu
         self.descripcion_ciiu = descripcion_ciiu
         self.sustancia = sustancia
         self.cuerpo_receptor = cuerpo_receptor

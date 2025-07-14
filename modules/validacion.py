@@ -26,7 +26,6 @@ def validar_informacion(emision: Emision):
     opcion = input("Si (s) / No (n): ")
 
     if (opcion == "s"):
-        
         empresas = buscar_empresas_por_clave_criterio(emision.codigo_empresa, lambda e: e.codigo_empresa)
         locales = buscar_locales_por_clave_criterio(emision.codigo_local, lambda l: l.codigo_local)
 
@@ -47,7 +46,7 @@ def validar_informacion(emision: Emision):
         )
 
         registrar_reporte(reporte)
-        input("La emisión ha sido validada exitosamente. Presione enter para continuar...")
+        input("\nLa emisión ha sido validada exitosamente. Presione enter para continuar...")
     else:
         input("\nLa emisión no ha sido validada como correcta. Presione enter para continuar...")
 
