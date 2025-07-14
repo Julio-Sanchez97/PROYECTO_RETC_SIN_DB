@@ -1,5 +1,7 @@
 from funciones.empresa import buscar_empresas_por_clave_criterio
 from funciones.local import buscar_locales_por_clave_criterio
+from funciones.sustancia import buscar_sustancia_por_clave_criterio
+from funciones.cuerpo_receptor import buscar_cuerpo_receptor_por_clave_criterio
 from funciones.reporte import registrar_reporte
 from modelos.emision import Emision
 from modelos.reporte import Reporte
@@ -22,12 +24,16 @@ def seleccionar_filtro() -> int:
     return int(opcion)
 
 def validar_informacion(emision: Emision):
+    
     print("\n¿Desea validar esta información como correcta?")
-    opcion = input("Si (s) / No (n): ")
+    opcion = input("Si (s) / No (n): ").lower()
 
     if (opcion == "s"):
         empresas = buscar_empresas_por_clave_criterio(emision.codigo_empresa, lambda e: e.codigo_empresa)
         locales = buscar_locales_por_clave_criterio(emision.codigo_local, lambda l: l.codigo_local)
+        sustancia = buscar_sustancia_por_clave_criterio(emision.codigo_sustancia, lambda s: s.codigo_sustancia)
+        cuerpo_receptor = buscar_cuerpo_receptor_por_clave_criterio(emision.codigo_cuerpo_receptor, lambda c: c.codigo_cuerpo_receptor)
+
 
         reporte = Reporte(
             codigo_emision=emision.codigo_emision,
@@ -37,18 +43,23 @@ def validar_informacion(emision: Emision):
             nombre_local=locales[0].nombre_local,
             codigo_ciiu=empresas[0].codigo_actividad_ciiu,
             descripcion_ciiu=empresas[0].actividad,
-            cuerpo_receptor=emision.cuerpo_receptor,
+            cuerpo_receptor=cuerpo_receptor[0].nombre_cuerpo_receptor,
             nombre_cuerpo_receptor=emision.nombre_cuerpo_receptor,
             cantidad=emision.cantidad,
             unidad_medida=emision.unidad_medida,
-            sustancia=emision.sustancia,
+            sustancia=sustancia[0].nombre_sustancia,
             metodo_calculo=emision.metodo_calculo
         )
 
         registrar_reporte(reporte)
         input("\nLa emisión ha sido validada exitosamente. Presione enter para continuar...")
-    else:
+        return True
+    elif(opcion == "n"):
         input("\nLa emisión no ha sido validada como correcta. Presione enter para continuar...")
+        return True
+    else:
+        input("\nValor incorrecto. Presione enter para continuar...")
+        return False
 
 def validacion():
     opcion = seleccionar_filtro()
@@ -64,6 +75,7 @@ def validacion():
         codigo_local = local.codigo_local
 
     emision_seleccionada = seleccionar_emision(codigo_empresa, codigo_local)
-
-    ver_detalle_emision(emision_seleccionada)
-    validar_informacion(emision_seleccionada)
+    while True:
+        ver_detalle_emision(emision_seleccionada)
+        if validar_informacion(emision_seleccionada):
+            break

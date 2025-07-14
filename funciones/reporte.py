@@ -49,6 +49,7 @@ def registrar_reporte(reporte: Reporte):
         "Codigo Ciiu": reporte.codigo_ciiu,
         "Descripcion Ciiu": reporte.descripcion_ciiu,
         "Cuerpo Receptor": reporte.cuerpo_receptor,
+        "Nombre Cuerpo Receptor": reporte.nombre_cuerpo_receptor,
         "Cantidad": reporte.cantidad,
         "Unidad de Medida": reporte.unidad_medida,
         "Sustancia Química": reporte.sustancia,

@@ -37,7 +37,7 @@ def seleccionar_opcion_menu():
     print("4. Buscar por código de CIIU")
     print("5. Restablecer listado original")
     print("6. Salir")
-
+    
     return input("\nSeleccione una opción: ")
 
 def mostrar_reportes(reportes: list):
@@ -70,7 +70,7 @@ def reporte():
     while True:
         limpiar_pantalla()
         mostrar_reportes(reportes)
-
+        #input("Esperando. Dale enter para continuar...")
         opcion = seleccionar_opcion_menu()
 
         if opcion == "1":
