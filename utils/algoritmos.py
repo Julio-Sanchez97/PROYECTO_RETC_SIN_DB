@@ -16,6 +16,13 @@ def busqueda_binaria(lista: list, clave, key) -> list:
     izquierda = 0
     derecha = len(lista) - 1
 
+    if lista:
+        muestra = key(lista[0])
+        if isinstance(muestra, int):
+            clave = int(clave)
+        elif isinstance(muestra, str):
+            clave = str(clave)
+
     while izquierda <= derecha:
         medio = (izquierda + derecha) // 2
         valor = key(lista[medio])

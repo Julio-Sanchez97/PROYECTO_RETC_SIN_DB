@@ -1,26 +1,25 @@
-import csv
+import pandas as pd
 
-def guardar_emisiones_reporte_csv(emisiones_reporte: list, ruta_archivo: str):
-    with open(ruta_archivo, mode='w', newline='', encoding='utf-8') as archivo:
-        writer = csv.writer(archivo)
-        
-        writer.writerow([
-            "Codigo_Emision",
-            "Codigo_Empresa", "Nombre_Empresa",
-            "Codigo_Local", "Nombre_Local",
-            "Sustancia", "Cuerpo receptor", "Nombre del cuerpo receptor",
-            "Unidad de medida", "Cantidad", "Método de cálculo"
-        ])
-        
-        for e in emisiones_reporte:
-            writer.writerow([
-                e.codigo_emision,
-                e.codigo_empresa, e.nombre_empresa,
-                e.codigo_local, e.nombre_localidad,
-                e.sustancia,
-                e.cuerpo_receptor,
-                e.nombre_cuerpo_receptor,
-                e.unidad_medida,
-                e.cantidad,
-                e.metodo_calculo
-            ])
+from modelos.reporte import Reporte
+
+def registrar_reporte(reporte: Reporte):
+    nueva_fila = {
+        "Codigo Emision": reporte.codigo_emision,
+        "Codigo Empresa": reporte.codigo_empresa,
+        "Nombre Empresa": reporte.nombre_empresa,
+        "Codigo Local": reporte.codigo_local,
+        "Nombre Local": reporte.nombre_local,
+        "Codigo Ciiu": reporte.codigo_ciiu,
+        "Descripcion Ciiu": reporte.descripcion_ciiu,
+        "Cuerpo Receptor": reporte.cuerpo_receptor,
+        "Cantidad": reporte.cantidad,
+        "Unidad de Medida": reporte.unidad_medida,
+        "Sustancia Química": reporte.sustancia,
+        "Método de cálculo": reporte.metodo_calculo
+    }
+
+    ruta_fichero = "documents/reporte.xlsx"
+
+    df = pd.read_excel(ruta_fichero)
+    df = pd.concat([df, pd.DataFrame([nueva_fila])], ignore_index=True)
+    df.to_excel(ruta_fichero, index=False)

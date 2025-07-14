@@ -5,7 +5,9 @@ class Reporte:
         codigo_empresa: int,
         nombre_empresa: str,
         codigo_local: int,
-        nombre_localidad: str,
+        nombre_local: str,
+        codigo_ciiu: int,
+        descripcion_ciiu: str,
         sustancia: str,
         cuerpo_receptor: str,
         nombre_cuerpo_receptor: str,
@@ -17,7 +19,9 @@ class Reporte:
         self.codigo_empresa = codigo_empresa
         self.nombre_empresa = nombre_empresa
         self.codigo_local = codigo_local
-        self.nombre_localidad = nombre_localidad
+        self.nombre_local = nombre_local
+        self.codigo_ciiu = codigo_ciiu,
+        self.descripcion_ciiu = descripcion_ciiu
         self.sustancia = sustancia
         self.cuerpo_receptor = cuerpo_receptor
         self.nombre_cuerpo_receptor = nombre_cuerpo_receptor

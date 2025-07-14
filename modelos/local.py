@@ -7,7 +7,8 @@ class Local:
         departamento: str,
         ciudad: str,
         distrito: str,
-        coordenadas: str,
+        coordenadas_x: str,
+        coordenadas_y: str,
     ):
         self.codigo_local = codigo_local
         self.codigo_empresa = codigo_empresa
@@ -15,4 +16,5 @@ class Local:
         self.departamento = departamento
         self.ciudad = ciudad
         self.distrito = distrito
-        self.coordenadas = coordenadas
+        self.coordenadas_x = coordenadas_x
+        self.coordenadas_y = coordenadas_y
