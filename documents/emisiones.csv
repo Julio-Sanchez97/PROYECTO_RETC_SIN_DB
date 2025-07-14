@@ -1,0 +1,44 @@
+Codigo_Emision,Codigo_Empresa,Codigo_Local,Sustancia,Cuerpo receptor,Nombre del cuerpo receptor,Unidad de medida,Cantidad,Método de cálculo
+1,1,1,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+2,1,2,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+3,1,3,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+4,2,4,Toxafeno,Río,,,2.3,ESTIMADO
+5,2,5,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+6,2,6,Toxafeno,Río,,,2.3,ESTIMADO
+7,3,7,Vanadio,Atmósfera,,,1.45,MEDIDO
+8,3,8,Vanadio,Atmósfera,,,1.45,MEDIDO
+9,3,9,Tremolita,Terreno,,,12.5,ESTIMADO
+10,3,10,Xileno,Río,,,3.8,ESTIMADO
+11,3,11,Toxafeno,Río,,,2.3,ESTIMADO
+12,4,12,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+13,4,13,Vanadio,Atmósfera,,,1.45,MEDIDO
+14,4,14,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+15,4,15,Toxafeno,Río,,,2.3,ESTIMADO
+16,4,16,Uranio,Zona,,,8.2,MEDIDO
+17,5,17,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+18,5,18,Vanadio,Atmósfera,,,1.45,MEDIDO
+19,5,19,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+20,5,20,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+21,5,21,Uranio,Zona,,,8.2,MEDIDO
+22,6,22,Xileno,Río,,,3.8,ESTIMADO
+23,6,23,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+24,6,24,Xileno,Río,,,3.8,ESTIMADO
+25,6,25,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+26,6,26,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+27,7,27,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+28,7,28,Tremolita,Terreno,,,12.5,ESTIMADO
+29,7,29,Uranio,Zona,,,8.2,MEDIDO
+30,7,30,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+31,8,31,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+32,8,32,Vanadio,Atmósfera,,,1.45,MEDIDO
+33,8,33,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+34,8,34,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+35,9,35,Vanadio,Atmósfera,,,1.45,MEDIDO
+36,9,36,Uranio,Zona,,,8.2,MEDIDO
+37,9,37,Triclorobencenos (totales),Agua,,,0.75,MEDIDO
+38,9,38,Xileno,Río,,,3.8,ESTIMADO
+39,9,39,Toxafeno,Río,,,2.3,ESTIMADO
+40,10,40,Tremolita,Terreno,,,12.5,ESTIMADO
+41,10,41,Trifenilos policlorados,Aire,,,0.15,MEDIDO
+42,10,42,Xileno,Río,,,3.8,ESTIMADO
+43,10,43,Vanadio,Atmósfera,,,1.45,MEDIDO

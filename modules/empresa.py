@@ -1,120 +1,96 @@
-import pandas as pd  #libereria para manejar excel
+from funciones.ciiu import buscar_ciius_por_clave_criterio, obtener_ciius_ordenadas_por_criterio
+from funciones.empresa import buscar_empresas_por_clave_criterio, generar_codigo_empresa, obtener_empresas_ordenadas_por_criterio, registrar_empresa
+from modelos.ciiu import Ciiu
+from modelos.empresa import Empresa
+from utils.consola import limpiar_pantalla
 
-# Diccionario global donde se almacenaran los datos de las empresas
-datos_empresas = {
-    "Razon social": [],
-    "RUC": [],
-    "Codigo actividad CIIU": [],
-    "Representante legal": [],
-    "Correo electronico": [],
-    "Telefono": []
-}
+def seleccionar_empresa() -> Empresa:
+    limpiar_pantalla()
+    empresas = obtener_empresas_ordenadas_por_criterio(criterio=lambda e: e.codigo_empresa)
 
-# Funcion para cargar datos desde un archivo Excel al diccionario
-def cargar_datos_desde_excel(nombre_archivo):
-    try:
-        # Leer el Excel y forzar que la columna RUC se lea como texto
-        df = pd.read_excel(nombre_archivo, dtype={"RUC": str})
+    print("\n{:^10} | {:<25} | {:<11} | {:<75} | {:<15}".format(
+        "Código", "Razón Social", "RUC", "Actividad", "Representante"
+    ))
+    print("-" * 150)
 
-        # Mostrar las columnas encontradas para depuracion
-        print("Columnas encontradas:", df.columns.tolist())
-
-        # Copiar los datos del DataFrame al diccionario
-        for columna in datos_empresas:
-            datos_empresas[columna] = df[columna].astype(str).tolist()  # Convertimos todo a texto
-
-        print("Datos cargados correctamente del Excel.\n")
-    except Exception as e:
-        print("Error al cargar archivo:", e)
-
-# Menu principal
-def mostrar_menu():
-    print("\n=== Menu Principal ===")
-    print("1. Registrar Empresa")
-    print("2. Registrar Local")
-    print("3. Registrar Emisiones")
-    print("4. Validar calculo de sustancias")
-    print("5. Salir del programa")
-
-# Funcion de busqueda binaria
-def busqueda_binaria(lista_rucs, ruc_buscado):
-    izquierda = 0
-    derecha = len(lista_rucs) - 1
-
-    while izquierda <= derecha:
-        medio = (izquierda + derecha) // 2
-        if lista_rucs[medio] == ruc_buscado:
-            return medio
-        elif lista_rucs[medio] < ruc_buscado:
-            izquierda = medio + 1
-        else:
-            derecha = medio - 1
-    return -1  # No encontrado
-
-# Funcion para registrar nueva empresa
-def registrar_empresa():
-    print("\n--- Registrar Empresa ---")
-    ruc_nuevo = input("Ingrese el RUC de la empresa: ").strip()
-
-    # Crear lista de tuplas y ordenarla por RUC
-    datos_ordenados = sorted(zip(
-        datos_empresas["RUC"],
-        datos_empresas["Razon social"],
-        datos_empresas["Codigo actividad CIIU"],
-        datos_empresas["Representante legal"],
-        datos_empresas["Correo electronico"],
-        datos_empresas["Telefono"]
-    ), key=lambda x: x[0])  # Ordenar por RUC
-
-    # Obtener solo la lista de RUCs como texto
-    rucs_ordenados = [str(r[0]) for r in datos_ordenados]
-
-    # Buscar si el RUC ya existe
-    posicion = busqueda_binaria(rucs_ordenados, ruc_nuevo)
-
-    if posicion != -1:
-        print("La empresa con ese RUC ya esta¡ registrada:")
-        print("Razon Social:", datos_ordenados[posicion][1])
-    else:
-        # Si no existe, registrar nueva empresa
-        razon = input("Ingrese la razon social: ")
-        ciiu = input("Ingrese el codigo actividad CIIU: ")
-        rep = input("Ingrese el representante legal: ")
-        correo = input("Ingrese el correo electronico: ")
-        telefono = input("Ingrese el telefono: ")
-
-        # Agregar los datos al diccionario
-        datos_empresas["RUC"].append(ruc_nuevo)
-        datos_empresas["Razon social"].append(razon)
-        datos_empresas["Codigo actividad CIIU"].append(ciiu)
-        datos_empresas["Representante legal"].append(rep)
-        datos_empresas["Correo electronico"].append(correo)
-        datos_empresas["Telefono"].append(telefono)
-
-        print("Empresa registrada correctamente.\n")
-
-# Funcion principal que controla el menu
-def main():
-    archivo = "registro de datos UPC.xlsx"  # Nombre exacto del archivo
-    cargar_datos_desde_excel(archivo)  # Carga inicial de datos
+    for e in empresas:
+        print("{:^10} | {:<25} | {:<11} | {:<75} | {:<15}".format(
+            e.codigo_empresa,
+            e.razon_social,
+            e.ruc,
+            e.actividad,
+            e.representante_legal
+        ))
 
     while True:
-        mostrar_menu()
-        opcion = input("Seleccione el numero del modulo: ")
+        try:
+            empresa_seleccionado = int(input("\nSeleccione el código de la empresa: "))
+            resultado = buscar_empresas_por_clave_criterio(empresa_seleccionado, lambda c: c.codigo_empresa, empresas)
+            
+            if not resultado:
+                print("El código no ha sido encontrado. Intente nuevamente.")
+            else:
+                return resultado[0]
+        except ValueError:
+            print("Por favor, ingrese un valor válido.")
 
-        if opcion == "1":
-            registrar_empresa()
-        elif opcion == "2":
-            print("\nFuncion 'Registrar Local' en desarrollo.\n")
-        elif opcion == "3":
-            print("\nFuncion 'Registrar Emisiones' en desarrollo.\n")
-        elif opcion == "4":
-            print("\nFuncion 'Validar calculo de sustancias' en desarrollo.\n")
-        elif opcion == "5":
-            print("\nSaliendo del programa. ¡Hasta luego!\n")
-            break
+def seleccionar_ciiu() -> Ciiu:
+    limpiar_pantalla()
+    ciius = obtener_ciius_ordenadas_por_criterio(criterio=lambda c: c.codigo_ciiu)
+
+    print("\n{:^10} | {:<60}".format("Código", "Descripción"))
+    print("-" * 75)
+
+    for c in ciius:
+        print("{:^10} | {:<60}".format(c.codigo_ciiu, c.descripcion))
+
+    while True:
+        try:
+            ciiu_seleccionado = int(input("\nSeleccione el código del ciiu: "))
+            resultado = buscar_ciius_por_clave_criterio(ciiu_seleccionado, lambda c: c.codigo_ciiu, ciius)
+            
+            if not resultado:
+                print("El código no ha sido encontrado. Intente nuevamente.")
+            else:
+                return resultado[0]
+        except ValueError:
+            print("Por favor, ingrese un valor válido.")
+
+def empresa():
+    limpiar_pantalla()
+
+    ruc = ""
+    
+    while True:
+        ruc = input("Ingrese el RUC: ")
+        empresa_encontrada = buscar_empresas_por_clave_criterio(ruc, lambda e: e.ruc)
+
+        if empresa_encontrada:
+            print("La empresa ya ha sido registrada. Intente con otro RUC.\n")
         else:
-            print("\nOpcion invalida. Intente nuevamente.\n")
+            break
 
-# Ejecutar el programa
-main()
+    razon_social = input("\nIngrese la razón social: ")
+    ciiu = seleccionar_ciiu()
+    
+    representante_legal = input("\nIngrese al representante legal: ")
+    correo_electronico = input("\nIngrese el correo electrónico: ")
+    telefono = input("\nIngrese el teléfono: ")
+    codigo_empresa = generar_codigo_empresa()
+
+    empresa = Empresa(
+        codigo_empresa=codigo_empresa,
+        razon_social=razon_social,
+        ruc=ruc,
+        codigo_actividad_ciiu=ciiu.codigo_ciiu,
+        actividad=ciiu.descripcion,
+        representante_legal=representante_legal,
+        correo_electronico=correo_electronico,
+        telefono=telefono
+    )
+
+    registrar_empresa(empresa)
+
+    input("La empresa ha sido registrada exitosamente. Presione enter para continuar...")
+
+    

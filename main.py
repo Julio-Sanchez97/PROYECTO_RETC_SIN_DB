@@ -4,11 +4,14 @@ from modules.local import local
 from modules.emisiones import emisiones
 from modules.validacion import validacion
 from modules.reporte import reporte
+from utils.consola import limpiar_pantalla
 
 
 def main():
     while True:
-        print("\nPrograma Registro de Emisiones y Transferencia de Contaminantes - MINAM")
+        limpiar_pantalla()
+
+        print("Programa Registro de Emisiones y Transferencia de Contaminantes - MINAM")
         print("************************************************************************")
         print("1. MÓDULO DE REGISTRO DE EMPRESA")
         print("2. MÓDULO DE REGISTRO DE LOCAL")
