@@ -70,7 +70,7 @@ def reporte():
     while True:
         limpiar_pantalla()
         mostrar_reportes(reportes)
-        #input("Esperando. Dale enter para continuar...")
+        
         opcion = seleccionar_opcion_menu()
 
         if opcion == "1":

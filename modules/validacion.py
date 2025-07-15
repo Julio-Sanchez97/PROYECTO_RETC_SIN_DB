@@ -34,7 +34,6 @@ def validar_informacion(emision: Emision):
         sustancia = buscar_sustancia_por_clave_criterio(emision.codigo_sustancia, lambda s: s.codigo_sustancia)
         cuerpo_receptor = buscar_cuerpo_receptor_por_clave_criterio(emision.codigo_cuerpo_receptor, lambda c: c.codigo_cuerpo_receptor)
 
-
         reporte = Reporte(
             codigo_emision=emision.codigo_emision,
             codigo_empresa=empresas[0].codigo_empresa,
@@ -75,6 +74,7 @@ def validacion():
         codigo_local = local.codigo_local
 
     emision_seleccionada = seleccionar_emision(codigo_empresa, codigo_local)
+    
     while True:
         ver_detalle_emision(emision_seleccionada)
         if validar_informacion(emision_seleccionada):

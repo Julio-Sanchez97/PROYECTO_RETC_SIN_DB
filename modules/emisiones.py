@@ -1,5 +1,6 @@
-from funciones.emision import buscar_emisiones_por_clave_criterio, cargar_emisiones_nuevas_desde_excel
+from funciones.emision import buscar_emisiones_por_clave_criterio, cargar_emisiones_nuevas_desde_excel, obtener_emisiones_ordenadas_por_criterio
 from funciones.cuerpo_receptor import obtener_cuerpos_receptores_ordenadas_por_criterio,buscar_cuerpo_receptor_por_clave_criterio
+from funciones.reporte import buscar_reportes_por_clave_criterio
 from funciones.sustancia import obtener_sustancias_ordenadas_por_criterio,buscar_sustancia_por_clave_criterio
 from funciones.empresa import buscar_empresas_por_clave_criterio
 from funciones.local import buscar_locales_por_clave_criterio
@@ -22,27 +23,18 @@ def seleccionar_emision(codigo_empresa: int, codigo_local: int) -> Emision:
     ))
     print("-" * 150)
 
-    # Funciones locales para buscar por código en listas
-    def get_nombre_sustancia(cod):
-        for s in sustancias:
-            if s.codigo_sustancia == cod:
-                return s.nombre_sustancia
-        return "?"
+    emisiones = obtener_emisiones_ordenadas_por_criterio(lambda e: e.codigo_emision)
 
-    def get_nombre_cuerpo_receptor(cod):
-        for c in cuerpos_receptores:
-            if c.codigo_cuerpo_receptor == cod:
-                return c.nombre_cuerpo_receptor
-        return "?"
-    #Ordenar por codigo de emision
-    emisiones = sorted(emisiones, key=lambda e: e.codigo_emision)
     for e in emisiones:
+        sustancia_encontada = buscar_sustancia_por_clave_criterio(e.codigo_sustancia, lambda s: s.codigo_sustancia,  sustancias)
+        cuerpo_receptor_encontrado = buscar_cuerpo_receptor_por_clave_criterio(e.codigo_cuerpo_receptor, lambda c: c.codigo_cuerpo_receptor,  cuerpos_receptores)
+    
         print("{:^5} | {:^10} | {:^10} | {:<30} | {:<25} | {:<25} | {:<8} | {:^10.2f} | {:<12}".format(
             e.codigo_emision,
             e.codigo_empresa,
             e.codigo_local,
-            get_nombre_sustancia(e.codigo_sustancia),
-            get_nombre_cuerpo_receptor(e.codigo_cuerpo_receptor),
+            sustancia_encontada[0].nombre_sustancia,
+            cuerpo_receptor_encontrado[0].nombre_cuerpo_receptor,
             e.nombre_cuerpo_receptor,
             e.unidad_medida,
             float(e.cantidad),
@@ -51,12 +43,25 @@ def seleccionar_emision(codigo_empresa: int, codigo_local: int) -> Emision:
 
     while True:
         try:
-            emision_seleccionada = int(input("\nSeleccione una emisión: "))
+            codigo_emision = int(input("\nSeleccione una emisión: "))
+            emision_encontrada = None
+
             for e in emisiones:
-                if e.codigo_emision == emision_seleccionada:
-                    return e
+                if e.codigo_emision == codigo_emision:
+                    emision_encontrada = e
+                    break
     
-            print("La emisión no ha sido encontrada en la lista mostrada.")
+            if not emision_encontrada:
+                print("La emisión no ha sido encontrada en la lista mostrada.")
+                continue
+
+            reportes = buscar_reportes_por_clave_criterio(emision_encontrada.codigo_emision, lambda e: e.codigo_emision)
+
+            if reportes:
+                print("La emisión ya fue validada como correcta, por favor seleccione otra.")
+                continue
+
+            return emision_encontrada
         except ValueError:
             print("Por favor, ingrese un valor válido.")
 
@@ -80,8 +85,8 @@ def ver_detalle_emision(emision: Emision):
 
 def cargar_emisiones():
     limpiar_pantalla()
-    Emision.inicializar_contador_desde_excel()
     nuevas = cargar_emisiones_nuevas_desde_excel()
+
     if nuevas:
         print(f"\n✅ Se cargaron {len(nuevas)} emisiones nuevas:\n")
         print("{:^5} | {:^10} | {:^10} | {:<30} | {:<15} | {:<25} | {:<8} | {:^10} | {:<12}".format(
